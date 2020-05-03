@@ -2,8 +2,7 @@ const moment = require('moment'),
     chatMessageModel = mongoose.model('rocketchat_message', new mongoose.Schema({}), 'rocketchat_message'),
     roomModel = mongoose.model('rocketchat_room', new mongoose.Schema({}), 'rocketchat_room'),
     usersModel = mongoose.model('users', new mongoose.Schema({}), 'users'),
-    _ = require('lodash'),
-    json2html = require('node-json2html');
+    _ = require('lodash');
 
 const getMessagesWithTarget = async (text, date) => {
 
@@ -73,14 +72,10 @@ const getMessagesWithTarget = async (text, date) => {
         ]
     };
 
-    let transformedHtml = json2html.transform(messagesArray, transform);
-
-    transformedHtml = '<table><tr><th>S.No.</th><th>FROM</th><th>TO</th><th>MESSAGE</th></tr>' + transformedHtml + '</table>';
-
     return {
-        message: "Data found " + date,
-        data: messagesArray,
-        html: transformedHtml
+        msg: text,
+        date: date,
+        data: messagesArray
     }
 }
 
@@ -96,7 +91,7 @@ const getMessages = async (req, res) => {
 
         let results = await getMessagesWithTarget(textToFilter, dateFilter);
 
-        res.send(results);
+        res.render('table', results)
     } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving messages."
