@@ -68,8 +68,8 @@ const getMessagesWithTarget = async (text, date) => {
 const getMessages = async (req, res) => {
 
     try {
-        const dateFilter = req.body.date ? req.body.date : moment().format('YYYY-MM-DD'),
-            textToFilter = req.body.msg ? req.body.msg : '#target';
+        const dateFilter = req.query.date ? req.query.date : moment().format('YYYY-MM-DD'),
+            textToFilter = req.query.msg ? req.query.msg : '#target';
 
         if (dateFilter.length !== 10) {
             throw {message: 'Please send correct date format YYYY-MM-DD'};
