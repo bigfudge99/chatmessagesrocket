@@ -1,7 +1,7 @@
 const moment = require('moment'),
-    chatMessageModel = mongoose.model('rocketchat-message', new mongoose.Schema({})),
-    roomModel = mongoose.model('rocketchat-room', new mongoose.Schema({})),
-    usersModel = mongoose.model('users', new mongoose.Schema({})),
+    chatMessageModel = mongoose.model('rocketchat_message', new mongoose.Schema({}), 'rocketchat_message'),
+    roomModel = mongoose.model('rocketchat_room', new mongoose.Schema({}), 'rocketchat_room'),
+    usersModel = mongoose.model('users', new mongoose.Schema({}), 'users'),
     _ = require('lodash');
 
 const getMessagesWithTarget = async (text, date) => {
@@ -13,25 +13,30 @@ const getMessagesWithTarget = async (text, date) => {
 
     let messages = await chatMessageModel.find({
         msg: {'$regex': text}, ts: {
-            $gte: date + ' 00:00:00',
-            $lt: nextDay + ' 00:00:00'
+            $gte: new Date(date + ' 00:00:00'),
+            $lt: new Date(nextDay + ' 00:00:00')
         }
-    });
+    }).lean();
 
     if (!messages || messages.length === 0) {
         return {message: "No data found for " + date, data: messagesArray};
     }
 
-    rids = _.map(messages, 'rid');
-
-    let getRoomData = await roomModel.find({
-        _id: {$in: rids}
+    rids = _.map(messages, m => {
+        return m.rid;
     });
+
+
+    let getRoomData = await roomModel.aggregate([{
+        $match: {
+            _id: {$in: rids}
+        }
+    }]);
 
     messages.forEach(message => {
 
         let roomData = _.find(getRoomData, (r) => {
-            return r._id === messages.rid;
+            return r._id == message.rid;
         });
 
         if (roomData.usersCount === 2) {
@@ -45,9 +50,9 @@ const getMessagesWithTarget = async (text, date) => {
         }
     });
 
-    let userNamesToFind = _.find(messagesArray, 'receiver');
+    let userNamesToFind = _.map(messagesArray, 'receiver');
 
-    let userNameFind = await usersModel.find({username: {$in: userNamesToFind}}, {name: 1, username: 1});
+    let userNameFind = await usersModel.find({username: {$in: userNamesToFind}}, {name: 1, username: 1}).lean();
 
     messagesArray.forEach(finalMessage => {
         let nameFind = _.find(userNameFind, (find) => {
