@@ -2,7 +2,8 @@ const moment = require('moment'),
     chatMessageModel = mongoose.model('rocketchat_message', new mongoose.Schema({}), 'rocketchat_message'),
     roomModel = mongoose.model('rocketchat_room', new mongoose.Schema({}), 'rocketchat_room'),
     usersModel = mongoose.model('users', new mongoose.Schema({}), 'users'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    json2html = require('node-json2html');
 
 const getMessagesWithTarget = async (text, date) => {
 
@@ -19,7 +20,7 @@ const getMessagesWithTarget = async (text, date) => {
     }).lean();
 
     if (!messages || messages.length === 0) {
-        return {message: "No data found for " + date, data: messagesArray};
+        return {message: "No data found for " + date, data: messagesArray, html: ''};
     }
 
     rids = _.map(messages, m => {
@@ -41,6 +42,7 @@ const getMessagesWithTarget = async (text, date) => {
 
         if (roomData.usersCount === 2) {
             messagesArray.push({
+                id: messagesArray.length + 1,
                 from: message.u.name,
                 to: '',
                 receiver: roomData.usernames[0] == message.u.username ? roomData.usernames[1] : roomData.usernames[0],
@@ -62,7 +64,24 @@ const getMessagesWithTarget = async (text, date) => {
         finalMessage.to = nameFind.name;
     });
 
-    return {message: "Data found " + date, data: messagesArray};
+    let transform = {
+        "tag": "tr", "children": [
+            {"tag": "td", "html": "${id}"},
+            {"tag": "td", "html": "${from}"},
+            {"tag": "td", "html": "${to}"},
+            {"tag": "td", "html": "${message}"},
+        ]
+    };
+
+    let transformedHtml = json2html.transform(messagesArray, transform);
+
+    transformedHtml = '<table><tr><th>S.No.</th><th>FROM</th><th>TO</th><th>MESSAGE</th></tr>' + transformedHtml + '</table>';
+
+    return {
+        message: "Data found " + date,
+        data: messagesArray,
+        html: transformedHtml
+    }
 }
 
 const getMessages = async (req, res) => {
