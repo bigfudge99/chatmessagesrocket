@@ -19,7 +19,7 @@ const getMessagesWithTarget = async (text, date) => {
         };
     console.log(findObject);
 
-    let messages = await chatMessageModel.find(findObject}).lean();
+    let messages = await chatMessageModel.find(findObject).lean();
 
     if (!messages || messages.length === 0) {
         return {message: "No data found for " + date, data: messagesArray, html: ''};
