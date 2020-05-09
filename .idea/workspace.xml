@@ -61,7 +61,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="ejs" value="229" />
-          <entry key="js" value="3315" />
+          <entry key="js" value="3323" />
           <entry key="json" value="35" />
           <entry key="md" value="17" />
         </counts>
@@ -70,7 +70,7 @@
         <counts>
           <entry key="EJS" value="229" />
           <entry key="JSON" value="35" />
-          <entry key="JavaScript" value="3315" />
+          <entry key="JavaScript" value="3323" />
           <entry key="PLAIN_TEXT" value="17" />
         </counts>
       </usages-collector>
@@ -117,8 +117,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/chat-messages.controller.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="87" column="29" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+            <state relative-caret-position="386">
+              <caret line="88" column="60" selection-start-line="88" selection-start-column="60" selection-end-line="88" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -276,12 +276,12 @@
       <updated>1588423067709</updated>
       <workItem from="1588423070454" duration="311000" />
       <workItem from="1588434771540" duration="20940000" />
-      <workItem from="1589010498022" duration="268000" />
+      <workItem from="1589010498022" duration="402000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21519000" />
+    <option name="totallyTimeSpent" value="21653000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="811" extended-state="0" />
@@ -366,8 +366,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/chat-messages.controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="87" column="29" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
+        <state relative-caret-position="386">
+          <caret line="88" column="60" selection-start-line="88" selection-start-column="60" selection-end-line="88" selection-end-column="60" />
         </state>
       </provider>
     </entry>
