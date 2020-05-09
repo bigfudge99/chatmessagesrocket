@@ -6,17 +6,20 @@ const moment = require('moment'),
 
 const getMessagesWithTarget = async (text, date) => {
 
+    console.log(text);
     const nextDay = moment(date).add(1, 'day').format('YYYY-MM-DD');
 
     let messagesArray = [],
-        rids = [];
+        rids = [],
+        findObject = {
+            msg: {'$regex': text}, ts: {
+                $gte: new Date(date + ' 00:00:00'),
+                $lt: new Date(nextDay + ' 00:00:00')
+            }
+        };
+    console.log(findObject);
 
-    let messages = await chatMessageModel.find({
-        msg: {'$regex': text}, ts: {
-            $gte: new Date(date + ' 00:00:00'),
-            $lt: new Date(nextDay + ' 00:00:00')
-        }
-    }).lean();
+    let messages = await chatMessageModel.find(findObject}).lean();
 
     if (!messages || messages.length === 0) {
         return {message: "No data found for " + date, data: messagesArray, html: ''};
