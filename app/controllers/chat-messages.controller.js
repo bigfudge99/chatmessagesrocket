@@ -85,6 +85,7 @@ const getMessagesWithTarget = async (text, date) => {
 const getMessages = async (req, res) => {
 
     try {
+        console.log(req.query)
         const dateFilter = req.query.date ? req.query.date : moment().format('YYYY-MM-DD'),
             textToFilter = req.query.msg ? req.query.msg : '#target';
 
