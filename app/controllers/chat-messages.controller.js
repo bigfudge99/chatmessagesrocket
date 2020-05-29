@@ -84,7 +84,7 @@ const getMessagesWithTarget = async (text, date) => {
 
 const getAllThreads = async (start, end) => {
 
-    const endDay = moment(end).endOf('day').format('YYYY-MM-DD'),
+    const endDay = moment(end).add(1, 'day').startOf('day').format('YYYY-MM-DD'),
         startDay = moment(start).startOf('day').format('YYYY-MM-DD');
 
     let messagesArray = [],
