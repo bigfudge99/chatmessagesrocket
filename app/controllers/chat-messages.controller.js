@@ -112,8 +112,8 @@ const getAllThreads = async (start, end) => {
     });
 
     return {
-        start,
-        end,
+        start: startDay,
+        end : endDay,
         data: messagesArray
     }
 }
