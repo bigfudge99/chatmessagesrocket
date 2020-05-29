@@ -112,8 +112,8 @@ const getAllThreads = async (start, end) => {
     });
 
     return {
-        start: startDay,
-        end : endDay,
+        startDay: startDay,
+        endDay : endDay,
         data: messagesArray
     }
 }
@@ -144,6 +144,7 @@ const getMessages = async (req, res) => {
 
         let results = await getAllThreads(start, end);
 
+        console.log(results);
         res.render('threads', results)
     } catch (err) {
         res.status(500).send({
