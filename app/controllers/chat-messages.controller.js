@@ -82,6 +82,42 @@ const getMessagesWithTarget = async (text, date) => {
     }
 }
 
+const getAllThreads = async (start, end) => {
+
+    const endDay = moment(end).endOf('day').format('YYYY-MM-DD'),
+        startDay = moment(start).startOf('day').format('YYYY-MM-DD');
+
+    let messagesArray = [],
+        rids = [],
+        findObject = {
+            tcount: {$gt: 0}, ts: {
+                $gte: new Date(startDay + ' 00:00:00'),
+                $lt: new Date(endDay + ' 00:00:00')
+            }
+        };
+
+    let messages = await chatMessageModel.find(findObject).lean();
+
+    if (!messages || messages.length === 0) {
+        return {message: "No data found for " + start, data: messagesArray, html: ''};
+    }
+
+    messages.forEach(message => {
+        messagesArray.push({
+            id: messagesArray.length + 1,
+            count: message.tcount,
+            date: message.ts,
+            message: message.msg
+        });
+    });
+
+    return {
+        start,
+        end,
+        data: messagesArray
+    }
+}
+
 const getMessages = async (req, res) => {
 
     try {
@@ -100,9 +136,24 @@ const getMessages = async (req, res) => {
             message: err.message || "Some error occurred while retrieving messages."
         });
     }
+}, getThreads = async (req, res) => {
+    try {
+        const start = req.query.start_date ? req.query.start_date : moment().format('YYYY-MM-DD'),
+            end = req.query.end_date ? req.query.end_date : moment().format('YYYY-MM-DD');
+
+
+        let results = await getAllThreads(start, end);
+
+        res.render('threads', results)
+    } catch (err) {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving messages."
+        });
+    }
 }
 
 
 module.exports = {
-    getMessages
+    getMessages,
+    getThreads
 }
