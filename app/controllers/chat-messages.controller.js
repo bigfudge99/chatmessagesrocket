@@ -96,10 +96,17 @@ const getAllThreads = async (start, end) => {
             }
         };
 
+
+    console.log(findObject)
+
     let messages = await chatMessageModel.find(findObject).lean();
 
     if (!messages || messages.length === 0) {
-        return {message: "No data found for " + start, data: messagesArray, html: ''};
+        return {
+            startDay: startDay,
+            endDay: endDay,
+            data: messagesArray
+        }
     }
 
     messages.forEach(message => {
@@ -113,7 +120,7 @@ const getAllThreads = async (start, end) => {
 
     return {
         startDay: startDay,
-        endDay : endDay,
+        endDay: endDay,
         data: messagesArray
     }
 }
