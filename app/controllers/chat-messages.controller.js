@@ -90,6 +90,7 @@ const getAllThreads = async (start, end) => {
     let messagesArray = [],
         rids = [],
         findObject = {
+            dcount: {$gt: 0},
             tcount: {$gt: 0}, ts: {
                 $gte: new Date(startDay + ' 00:00:00'),
                 $lt: new Date(endDay + ' 00:00:00')
