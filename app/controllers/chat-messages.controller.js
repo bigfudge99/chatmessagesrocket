@@ -113,7 +113,7 @@ const getAllThreads = async (start, end) => {
     messages.forEach(message => {
         messagesArray.push({
             id: messagesArray.length + 1,
-            count: message.tcount,
+            count: message.tcount || message.dcount,
             date: message.ts,
             message: message.msg
         });
