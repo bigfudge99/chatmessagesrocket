@@ -141,7 +141,7 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
                 from: message.u.name,
                 to: '',
                 receiver: roomData.usernames[0] == message.u.username ? roomData.usernames[1] : roomData.usernames[0],
-                date: message.ts,
+                date: moment(message.ts).format('YYYY-MM-DD hh:mm'),
                 message: message.msg
             });
         }
@@ -260,7 +260,6 @@ const getMessages = async (req, res) => {
             userName1 = req.query.username1,
             userName2 = req.query.username2;
 
-        console.log(req.query);
 
         let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate, userName1, userName2);
 
