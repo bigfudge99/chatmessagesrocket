@@ -82,14 +82,22 @@ const getMessagesWithTarget = async (text, date) => {
     }
 }
 
-const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd) => {
+const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, userName2) => {
 
     const endDay = moment(dateEnd).add(1, 'day').startOf('day').format('YYYY-MM-DD'),
         startDay = moment(dateStart).startOf('day').format('YYYY-MM-DD');
 
+    let user1 = await usersModel.find({username: _.trim(userName1)}, {_id: 1}),
+        user2 = await usersModel.find({username: _.trim(userName2)}, {_id: 1});
+
+    if (!user1 && !user2) {
+        return {message: "user name not found", data: messagesArray, html: ''};
+    }
+
     let messagesArray = [],
         rids = [],
         findObject = {
+            $or: [{rid: `${user1._id}${user2._id}`}, {rid: `${user2._id}${user1._id}`}],
             msg: {'$regex': text}, ts: {
                 $gte: new Date(startDay + ' 00:00:00'),
                 $lt: new Date(endDay + ' 00:00:00')
@@ -232,9 +240,11 @@ const getMessages = async (req, res) => {
     try {
         const startDate = req.query.startDate ? req.query.startDate : moment().format('YYYY-MM-DD'),
             endDate = req.query.endDate ? req.query.endDate : moment().format('YYYY-MM-DD'),
-            textToFilter = req.query.msg ? `${req.query.msg}` : 'target';
+            textToFilter = req.query.msg ? `${req.query.msg}` : '',
+            userName1 = req.query.username1,
+            userName2 = req.query.username2;
 
-        let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate);
+        let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate, userName1, userName2);
 
         res.render('tableStartEnd', results)
     } catch (err) {
