@@ -1,7 +1,7 @@
 const moment = require('moment'),
     chatMessageModel = mongoose.model('rocketchat_message', new mongoose.Schema({}), 'rocketchat_message'),
     roomModel = mongoose.model('rocketchat_room', new mongoose.Schema({}), 'rocketchat_room'),
-    usersModel = mongoose.model('users', new mongoose.Schema({}), 'users'),
+    usersModel = mongoose.model('users', new mongoose.Schema({_id: String,}), 'users'),
     _ = require('lodash');
 
 const getMessagesWithTarget = async (text, date) => {
