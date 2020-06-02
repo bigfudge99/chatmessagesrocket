@@ -29,6 +29,7 @@
         <th>FROM</th>
         <th>TO</th>
         <th>Message</th>
+        <th>Date</th>
     </tr>
     <% for (var i = 0; i < data.length; i++) { %>
     <tr>
@@ -36,6 +37,7 @@
         <td><%= data[i].from %></td>
         <td><%= data[i].to %></td>
         <td><%= data[i].message %></td>
+        <td><%= data[i].date %></td>
     </tr>
     <% } %>
 </table>
