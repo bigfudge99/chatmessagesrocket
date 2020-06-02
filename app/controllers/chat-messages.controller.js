@@ -87,6 +87,8 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
     const endDay = moment(dateEnd).add(1, 'day').startOf('day').format('YYYY-MM-DD'),
         startDay = moment(dateStart).startOf('day').format('YYYY-MM-DD');
 
+     console.log(userName1)
+     console.log(userName2)
     let user1 = await usersModel.find({username: _.trim(userName1)}, {_id: 1}),
         user2 = await usersModel.find({username: _.trim(userName2)}, {_id: 1});
 
