@@ -6,7 +6,7 @@ const moment = require('moment'),
 
 const getMessagesWithTarget = async (text, date) => {
 
-    console.log(text);
+
     const nextDay = moment(date).add(1, 'day').format('YYYY-MM-DD');
 
     let messagesArray = [],
@@ -17,7 +17,6 @@ const getMessagesWithTarget = async (text, date) => {
                 $lt: new Date(nextDay + ' 00:00:00')
             }
         };
-    console.log(findObject);
 
     let messages = await chatMessageModel.find(findObject).lean();
 
@@ -87,14 +86,10 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
     const endDay = moment(dateEnd).add(1, 'day').startOf('day').format('YYYY-MM-DD'),
         startDay = moment(dateStart).startOf('day').format('YYYY-MM-DD');
 
-     console.log(userName1)
-     console.log(userName2)
+
     let user1 = await usersModel.findOne({"username": userName1}),
         user2 = await usersModel.findOne({"username": userName2});
-
-    console.log(user1);
-    console.log(user2);
-
+    
     if (!user1 && !user2) {
         return {message: "user name not found", data: [], html: ''};
     }
@@ -182,8 +177,6 @@ const getAllThreads = async (start, end) => {
             }
         };
 
-
-    console.log(findObject)
 
     let messages = await chatMessageModel.find(findObject).lean();
 
