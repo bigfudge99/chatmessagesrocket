@@ -89,8 +89,8 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
 
      console.log(userName1)
      console.log(userName2)
-    let user1 = await usersModel.find({username: _.trim(userName1)}, {_id: 1}),
-        user2 = await usersModel.find({username: _.trim(userName2)}, {_id: 1});
+    let user1 = await usersModel.findOne({username: userName1}, {_id: 1}),
+        user2 = await usersModel.findOne({username: userName2}, {_id: 1});
 
     console.log(user1);
     console.log(user2);
