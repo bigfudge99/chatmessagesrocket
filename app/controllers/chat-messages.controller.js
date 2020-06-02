@@ -215,7 +215,11 @@ const getMessages = async (req, res) => {
 
         let results = await getMessagesWithTarget(textToFilter, dateFilter);
 
-        res.render('table', results)
+        if (results.message) {
+            res.render('notfound');
+        } else {
+            res.render('table', results)
+        }
     } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving messages."
@@ -229,8 +233,12 @@ const getMessages = async (req, res) => {
 
         let results = await getAllThreads(start, end);
 
-        console.log(results);
-        res.render('threads', results)
+        if (results.message) {
+            res.render('notfound');
+        } else {
+            res.render('threads', results)
+        }
+
     } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving messages."
@@ -246,7 +254,11 @@ const getMessages = async (req, res) => {
 
         let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate, userName1, userName2);
 
-        res.render('tableStartEnd', results)
+        if (results.message) {
+            res.render('notfound');
+        } else {
+            res.render('tableStartEnd', results)
+        }
     } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving messages."
