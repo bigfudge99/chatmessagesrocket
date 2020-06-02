@@ -120,7 +120,6 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd) => {
         });
 
         if (roomData.usersCount === 2) {
-            console.log(message);
             messagesArray.push({
                 id: messagesArray.length + 1,
                 from: message.u.name,
@@ -233,7 +232,7 @@ const getMessages = async (req, res) => {
     try {
         const startDate = req.query.startDate ? req.query.startDate : moment().format('YYYY-MM-DD'),
             endDate = req.query.endDate ? req.query.endDate : moment().format('YYYY-MM-DD'),
-            textToFilter = req.query.msg ? `#${req.query.msg}` : '#target';
+            textToFilter = req.query.msg ? `${req.query.msg}` : 'target';
 
         let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate);
 
