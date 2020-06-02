@@ -5,4 +5,6 @@ module.exports = (app) => {
     app.get('/todayChatMessages', controller.getMessages);
 
     app.get('/totalThreads', controller.getThreads);
+
+    app.get('/messagesFromTo', controller.getMessagesFromTo);
 }
