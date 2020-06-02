@@ -90,6 +90,9 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
     let user1 = await usersModel.find({username: _.trim(userName1)}, {_id: 1}),
         user2 = await usersModel.find({username: _.trim(userName2)}, {_id: 1});
 
+    console.log(user1);
+    console.log(user2);
+
     if (!user1 && !user2) {
         return {message: "user name not found", data: messagesArray, html: ''};
     }
@@ -103,6 +106,9 @@ const getMessagesWithTargetFromTo = async (text, dateStart, dateEnd, userName1, 
                 $lt: new Date(endDay + ' 00:00:00')
             }
         };
+    if(!text) {
+        delete findObject.msg;
+    }
     console.log(findObject);
 
     let messages = await chatMessageModel.find(findObject).lean();
@@ -251,6 +257,8 @@ const getMessages = async (req, res) => {
             textToFilter = req.query.msg ? `${req.query.msg}` : '',
             userName1 = req.query.username1,
             userName2 = req.query.username2;
+
+        console.log(req.query);
 
         let results = await getMessagesWithTargetFromTo(textToFilter, startDate, endDate, userName1, userName2);
 
